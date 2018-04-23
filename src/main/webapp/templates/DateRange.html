@@ -1,0 +1,27 @@
+<ng-form name="dateRangeForm">
+   <div id="dateRangeGroupSection" class="col-sm-4 col-md-3 col-lg-4" ng-controller="DateRangeCtrl">
+      <label id="dateRangeGroupLabel"><strong>{{dateRangeLabel}}</strong></label>
+         <div id="dateRangeGroup" class="form-group">
+         <div class="col-lg-5 nopadding" ng-class="invalidDateInputFlag ? 'has-error has-feedback' : ''">
+	        <input id="startDate" name="startDate"	type="text" class="form-control input-sm"
+		           placeholder="enter date" ng-model="startDate" ng-pattern="datePattern"
+			       ng-minlength="8" ng-maxlength="8" ng-blur="validateStartDateInput()">
+		    <span class="glyphicon glyphicon-remove form-control-feedback" for="startDate" ng-show="invalidDateInputFlag"></span>
+		    <span class="error" ng-show="invalidDateFormatFlag" style="color: red">Please enter date in format yyyyMMdd.</span>
+		    <span class="error" ng-show="invalidDateFlag" style="color: red">Enter a valid date in format yyyyMMdd.</span>
+		    <span class="error" ng-show="noStartDate" style="color: red">Start date is required.</span>
+		    <span ng-show="!invalidDateFormatFlag&&!invalidDateFlag&&!noStartDate"><small><i>date format(yyyyMMdd)</i></small></span>
+	     </div>
+	     <div class="col-lg-2" style="line-height: 30px;text-align: center;"><span>to</span></div>
+	     <div class="col-lg-5 nopadding" ng-class="invalidEndDateInputFlag ? 'has-error has-feedback' : ''">
+		    <input id="endDate" name="endDate" type="text" class="form-control input-sm"
+		           placeholder="enter date" ng-model="endDate" ng-pattern="datePattern"
+			       ng-minlength="8" ng-maxlength="8" ng-blur="validateEndDateInput()">
+		    <span class="glyphicon glyphicon-remove form-control-feedback" for="endDate" ng-show="invalidEndDateInputFlag"></span>
+		    <span class="error" ng-show="invalidEndDateFormatFlag" style="color: red">Please enter date in format yyyyMMdd.</span>
+		    <span class="error" ng-show="invalidEndDateFlag" style="color: red">Enter a valid date in format yyyyMMdd.</span>
+		    <span ng-show="!invalidEndDateFormatFlag&&!invalidEndDateFlag"><small><i>date format(yyyyMMdd)</i></small></span>
+	     </div>
+      </div>
+   </div>
+</ng-form>

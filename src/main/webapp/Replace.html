@@ -1,0 +1,116 @@
+<div id="documentSection" class="container nolpadding norpadding" style="width:98%;">
+
+    <div id="viewDocFailure" class="alert alert-warning" data-ng-show="showDocError">
+        <strong>Only raw format available.</strong>
+    </div>
+    <div id="findResults" class="alert alert-warning" data-ng-show="showFindNextResults">
+        <strong>There are no more results for your search.</strong>
+    </div>
+    <div id="commitSuccess" class="alert alert-success"	data-ng-show="showCommitSuccess">
+		<strong>{{numReplaces}} replacements have been saved in {{committedDocs}} documents.</strong>
+	</div>
+	<div id="replaceAllInProcess" class="alert alert-warning" data-ng-show="replaceAllInProcess">
+        <strong>Your replacements are in progress...</strong>
+    </div>    
+    <div id="replaceAllSuccess" class="alert alert-success" data-ng-show="replaceAllSuccess">
+        <strong>{{numReplaces}} replacements have been saved in {{docsModified}} documents.</strong>
+    </div>    
+    <div id="getJsonError" class="alert alert-danger" data-ng-show="getJsonError">
+        <strong>Your request has failed, please try again or contact PQ-Optimus-Mortar@proquest.com for assistance.</strong>
+    </div>
+    <div id="regExError" class="alert alert-danger" data-ng-show="regExError">
+        <strong>The 'replace all' request failed due to an invalid regular expression. Refer to user documentation and try again.</strong>
+    </div>
+    <form name="findReplaceForm">
+        <div id="inputSection" class="row nolpadding norpadding">
+            <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-xs-12 nopadding">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nolpadding norpadding" style="text-align: right;"><span>Find:</span></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <input ng-model="findText" ng-trim="false" name="findText" type="text" class="form-control input-sm" placeholder="Find in current document">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <button id="findBtn" type="button" class="btn btn-default btn-xs longButton" ng-click="findNext()" ng-disabled="disableActionBtn">Find Next
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 nolpadding norpadding" style="text-align: right;">
+                        <span>Replace with:</span></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <input id="replaceWithText" name="replaceWithText" type="text" class="form-control input-sm" placeholder="Replace in current document" ng-model="replaceWithText" ng-trim="false">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <button id="replaceBtn" type="button" class="btn btn-default btn-xs longButton" ng-click="replace()" ng-disabled="disableActionBtn">Replace</button>
+                        <button id="replaceAllBtn" type="button" class="btn btn-default btn-xs longButton" ng-click="replaceAll()" ng-disabled="disableActionBtn">Replace All &
+                            Commit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row vertical-align" style="margin-top:10px">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <span> </span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="fileFormat" id="rawFormat" value="RAW" ng-model="choiceFormat" ng-disabled="replaced || noINTFiles">
+                                Raw
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="fileFormat" id="intFormat" value="INT" ng-model="choiceFormat" ng-disabled="replaced || noINTFiles">
+                                Intermediate
+                            </label>
+                        </div>
+                    </div>
+                    	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pull-right">
+                        <button id="commitBtn" type="button" class="btn btn-default btn-xs longButton" ng-click="commit()" ng-disabled="disableActionBtn || !replaced">
+                            Commit Changes
+                        </button>
+                        <button id="cancelBtn" type="button" class="btn btn-default btn-xs longButton" ng-click="exit()">
+                            Exit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2  col-md-2 col-sm-6 col-xs-6 norpadding">
+                <span id="docsSelected">Docs Selected: {{totalSelectedDoc}}</span> <br>
+                <span id="docsVisited">Docs Modified: {{docsModified}}</span> <br>
+                <span id="numReplaces">Replacements Made: {{numReplaces}}</span>
+            </div>
+            
+            <div class="col-xl-3 col-lg-3  col-md-3 col-sm-6 col-xs-6 regextiparea">          	
+	                <p class="novpadding"><strong>Regular Expression Tips:</strong></p>
+	                <p class="novpadding tiplines">- <em>Find</em>&nbsp; field defaults to case-sensitive and regex</p>
+	                <p class="novpadding tiplines">- Escape special characters ^ [ . $  * ( \ / + ) | ?  for literal search with \ </p>
+	                <p class="novpadding tiplines">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Example:  <\/endtag></p>
+	                <p class="novpadding tiplines">- Use [\S\s]+ instead of .* or .+ </p>
+	                <p class="novpadding"><strong><a href="https://wiki.proquest.com/display/OPT/Bulk+Search+and+Replace" target='_blank' style="text-decoration: none;">
+	                Documentation here</a></strong>
+					</p>			
+            </div>
+        </div>
+
+	   <div class="row" style="line-height:5px; margin-top:10px; text-align: center;"><span id="docCount">{{curSelectedDoc}} of {{totalSelectedDoc}} documents</span></div>  
+       <div id="docSection" class="col-sm-12 col-md-12 col-lg-12 row top10 norpadding" style="margin-left:10px; margin-bottom:4px;">
+            <div id="docArea" class="tab-content norpadding">
+                <div id="docContent">
+                    <input type="hidden" ng-model="origDocument" name="origDocument"/>
+                    <div ng-bind-html="wysiwygDocument" id="wysiwygDocument"></div>
+                </div>
+            </div>
+       </div>
+
+    </form>
+
+    <br>
+    <br>
+
+</div>

@@ -1,0 +1,425 @@
+<div id="searchSection" ng-controller="SearchCtrl">
+	<div id="ExpandSearchSection" class="container"
+		style="background-color: #f8f8f8; margin-left: 15px; padding-left: 0px; padding-top: 10px; padding-bottom: 10px; width: 98%; margin-top: -18px;"
+		ng-show=collapse>
+
+
+
+		
+
+
+			<div
+				class="col-sm-1 col-md-1 col-lg-1 col-xl-1 nolpadding novpadding">
+				<label id="IPCodeLabel" class="control-label" for="IPCode"><strong>Pipeline</strong></label>
+
+				<div>
+					<input type="radio"  ng-click="cleanSearchParams()" ng-model="myVar" value="Optimus">Optimus
+
+				</div>
+
+				<div>
+					<input type="radio"  ng-click="cleanSearchParams()" ng-model="myVar" value="Bumblebee">Bumblebee
+
+				</div>
+			</div>
+
+
+
+
+<form id="searchForm" name="searchForm" role="form">
+
+
+			<div class="wrapper">
+				<div ng-hide="myVar == 'Optimus'">
+					<div ng-hide="myVar == 'Bumblebee'">
+						<div
+							class="col-sm-2 col-md-2 col-lg-2 col-xl-2 nolpadding novpadding">
+
+							<div id="IPCodeGroupSection"
+								class="form-group col-sm-8 col-md-8 col-lg-8 col-xl-8 norpadding">
+
+								<label id="IPCodeLabel" class="control-label" for="IPCode" ><strong>In
+										Provider</strong></label>
+								<div id="IPCodeSection"
+									class="select-wrapper form-control input-sm">
+
+									<select id="IPCode" ng-model="IPCode">
+										<option value="">choose pipeline</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+			<div class="wrapper">
+				<div ng-show="myVar == 'Optimus'">
+					<div
+						class="col-sm-2 col-md-2 col-lg-2 col-xl-2 nolpadding novpadding">
+
+						<div id="IPCodeGroupSection"
+							class="form-group col-sm-8 col-md-8 col-lg-8 col-xl-8 norpadding">
+
+							<label id="IPCodeLabel" class="control-label" for="IPCode"><strong>In
+									Provider</strong></label>
+							<div id="IPCodeSection"
+								class="select-wrapper form-control input-sm">
+
+								<select id="IPCode" ng-model="IPCode">
+									<option value="">choose provider</option>
+									<option ng-repeat="item in partners" value="{{item.partner}}">{{item.partner}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="wrapper">
+				<div ng-show="myVar == 'Bumblebee'">
+					<div
+						class="col-sm-2 col-md-2 col-lg-2 col-xl-2 nolpadding novpadding">
+
+						<div id="IPCodeGroupSection"
+							class="form-group col-sm-8 col-md-8 col-lg-8 col-xl-8 norpadding">
+
+							<label id="IPCodeLabel" class="control-label" for="IPCode" ><strong>In
+									Provider </strong></label>
+							<div id="IPCodeSection"
+								class="select-wrapper form-control input-sm">
+
+								<select id="IPCode" ng-model="IPCode">
+									<option value="">choose provider</option>
+									<option ng-repeat="item in partners" value="{{item.partner}}">{{item.partner}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div id="receivedDateGroupSection" class="col-sm-2 col-md-3 col-lg-3 col-xl-3 nolpadding novpadding">
+		    <label id="receivedDateGroupLabel"><strong>Received by Optimus on/through</strong></label> 
+		    <div id="receivedDateFormGroup" class="form-group">
+		        <div class="col-lg-5 nopadding" ng-class="invalidDateInputFlag ? 'has-error has-feedback' : ''">
+				   <input id="receivedDate" name="receivedDate"	type="text" class="form-control input-sm"
+					      placeholder="enter date" ng-model="receivedDate" ng-pattern="datePattern"
+					      ng-minlength="8" ng-maxlength="8" ng-blur="validateDateInput()">
+					<span class="glyphicon glyphicon-remove form-control-feedback" for="receivedDate" ng-show="invalidDateInputFlag"></span>
+					<span class="error" ng-show="invalidDateFormatFlag" style="color: red">Please enter date in format yyyyMMdd.</span>
+					<span class="error" ng-show="invalidDateFlag" style="color: red">Enter a valid date in format yyyyMMdd.</span>
+					<span class="error" ng-show="noStartDate" style="color: red">Start date is required.</span>
+					<span ng-show="!invalidDateFormatFlag&&!invalidDateFlag&&!noStartDate"><small><i>yyyyMMdd</i></small></span>
+			    </div>
+			    <div class="col-lg-2" style="line-height: 30px;text-align: center;"><span>to</span></div>
+			    <div class="col-lg-5 nopadding" ng-class="invalidEndDateInputFlag ? 'has-error has-feedback' : ''">
+				   <input id="receivedEndDate" name="receivedEndDate" type="text" class="form-control input-sm"
+					      placeholder="enter date" ng-model="receivedEndDate" ng-pattern="datePattern"
+					      ng-minlength="8" ng-maxlength="8"	ng-blur="validateEndDateInput()">
+				   <span class="glyphicon glyphicon-remove form-control-feedback" for="receivedEndDate" ng-show="invalidEndDateInputFlag"></span>
+				   <span class="error" ng-show="invalidEndDateFormatFlag" style="color: red">Please enter date in format yyyyMMdd.</span>
+				   <span class="error" ng-show="invalidEndDateFlag" style="color: red">Enter a valid date in format yyyyMMdd.</span>
+				   <span ng-show="!invalidEndDateFormatFlag&&!invalidEndDateFlag"><small><i>yyyyMMdd</i></small></span>
+				</div>
+			</div>
+		</div>
+		<div id="IDsSection" class="form-group col-sm-2 col-md-2 col-lg-2 col-xl-2 novpadding">
+			<label id="IDsLabel" class="control-label" for="IDParamsGroup"><strong>With
+					IDs </strong><em>(optional)</em>				
+			</label>
+	 		<div id="IDParamsGroup" class="form-group">
+	 			<div class="col-lg-7 nopadding">
+					<div id="IDParams" class="select-wrapper form-control input-sm">
+						<select id="IDType" ng-model="IDType" ng-click="clearNoIDType()">
+							<option value="">choose ID type</option>
+							<option value="1">Publication ID</option>
+							<option value="2">Document ID</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-lg-5 nopadding">
+					<input id="IDParamsText"
+						class="form-control input-sm" type="text" placeholder="enter text..." ng-model="searchID">
+				</div>
+				<span class="error" ng-show="noIDType" style="color: red"><small>Enter a type of ID</small></span>
+				<span ng-show="!noIDType"><small><i>
+					<a href="https://wiki.proquest.com/display/OPT/How+to+Use+Search+Parameters#HowToUseSearchParameters-idsearch" target='_blank' style="text-decoration: none">ID descriptions</a>
+				</i></small></span>
+			</div>		
+		</div>
+		<div id="errorMessageSection"
+			class="form-group col-sm-4 col-md-4 col-lg-4 col-xl-4 novpadding">
+			<label id="errorMessageLabel" class="control-label" for="errMessage"><strong>With
+					Error Message </strong><em>(optional)</em>								
+						<input type="checkbox" id="caseSensitiveCheckbox" ng-model="searchErrMsgCaseSensitivity" class="novpadding" style="margin-left:20px">
+						<span><strong>Case Sensitive</strong></span>					
+			</label> <input id="errMessage"
+				class="form-control input-sm" type="text" placeholder="enter text..." ng-model="searchErrorMessage" >
+				<span><small><i>
+					<a href="https://wiki.proquest.com/display/OPT/How+to+Use+Search+Parameters" target='_blank' style="text-decoration: none">supports regular expressions</a>
+				</i></small></span>
+		</div>
+		<div id="collapseSection" class="form-group col-sm-2 col-md-2 col-lg-1 col-xl-1 nopadding">
+		   <a ng-click="doCollapse()" id="collapseLink" ng-model=collapse><span class="uxf-icon uxf-up-open"></span>collapse view</a>
+		</div>
+						
+		<div id="searchSubmitSection" class="col-sm-12 col-md-12 col-lg-12 col-xl-12 nopadding">
+			<div class="mysearchbutton">
+				<button id="searchButton" type="submit"	class="btn btn-default btn-xs" ng-click="submit()" ng-disabled=isSearching>
+					<span ng-show="isSearching"><i class="glyphicon glyphicon-refresh spinning"></i></span> {{ searchButtonText }}
+				</button>
+			</div>
+			<a ng-click="cleanSearchParams()" id="clearsearchLink">clear search</a>
+		</div>
+								
+	  </form>
+   </div>
+   <div id="CollapseSearchSection" class="container" style="background-color:#f8f8f8;margin-left:15px;padding-left:10px;padding-top:10px;padding-bottom:10px;width:98%;margin-top:-18px;" ng-show=expand>
+      <div id="searchIcon" class="framework-icons" style="width: 30px;padding: 0 !important;margin: 0 !important;float: left;"><span class="uxf-icon uxf-search" style="margin-top: 1px;"></span></div>
+	  <form id="searchForm2"  class="form-inline" name="searchForm2" role="form">
+	     <div id="syntaxGroupSection" class="input-group col-sm-9 col-md-9 col-lg-10 nopadding" ng-class="invalidSyntaxFlag ? 'has-error' : ''">
+		     <input id="syntax" class="form-control input-sm" type="text" placeholder="" ng-model="syntaxSearchString">
+		     <span class="input-group-btn">
+		     	<button id="searchButton2" type="submit" class="btn btn-default btn-xs" ng-click="syntaxSubmit()" ng-disabled=isSearching>
+			    	<span ng-show="isSearching"><i class="glyphicon glyphicon-refresh spinning"></i></span> {{ searchButtonText }}
+	            </button>
+             </span>
+		 </div>
+		 <a ng-click="doExpand()" id="expandLink" ng-model=expand><span class="uxf-icon uxf-down-open"></span>change search</a>
+	  </form>
+   </div>
+
+	<div id="SearchErrorSearchCtrlSection" class="container" style="margin-left: 15px; padding-left: 0px; padding-top: 10px; padding-bottom: 0px; width: 98%; margin-bottom: -18px;">
+		<div id="SearchErrorSearchCtrlSectionInner" class="container" style="width: 100%">
+			<div id="noFormDataAlert" class="alert alert-danger" role="alert"	ng-show="noSearchData">
+				<strong>Unable to perform search. </strong>Provide at least one input and try again.
+			</div>
+			<div id="noFormDataAlert" class="alert alert-danger" role="alert"	ng-show="invalidSyntaxFlag">
+				<strong>Unable to parse search string. </strong> Update search and try again.
+			</div>
+		</div>
+	</div>
+</div>
+	
+<div class="top10" id="resultSection" ng-controller="ResultCtrl">
+	<div id="SearchErrorResultCtrlSection" class="container" style="margin-left: 15px; padding-left: 0px; padding-top: 10px; padding-bottom: 0px; width: 98%; margin-bottom: -18px;">
+		<div id="SearchErrorResultCtrlSectionInner" class="container" style="width: 100%">
+			<div id="noResultAlert" class="alert alert-danger" role="alert" ng-show="(noResult && !(deleteSuccess || resubmitSuccess))">
+				<strong>There were no results from your search query. </strong>Adjust your query and try again.
+			</div>
+			<div id="searchTimeoutAlert" class="alert alert-danger" role="alert" ng-show="searchTimeout">
+				<strong>Your request has timed out. </strong>Refine your search or try again later.  <!--  {{ searchData }} {{ searchStatus }}-->
+			</div>
+			<div id="noDocsAlert" class="alert alert-danger" role="alert" ng-show="noDocs">
+				<strong>All selected documents are not available to be viewed or edited. </strong> Refine your selection and try again.
+			</div>
+			<div id="searchServiceFailureAlert" class="alert alert-danger" role="alert" ng-show="searchServiceFailure">
+				<strong>Your search string cannot be parsed. </strong>Adjust your query and try again.
+			</div>
+		</div>
+	</div>
+	<div id="optiwrapper">
+		<div id="ResultsActionsRow" class="row">
+			<div id="ResultsLabelSection" class="col-md-3 col-sm-3 col-lg-2" style="margin-left:2px;">
+				<div style="line-height: 35px; width:110px; float: left;"><strong>Search Results </strong></div>
+				<a class="framework-icons myrefreshicon" ng-click="refresh()" id="refreshLink"><span class="uxf-icon uxf-clockwise" style="font-size:12px; margin-top:1px;margin-left:3px;"></span></a>
+			</div>
+			<div id="clearSelections" class="col-md-2 col-sm-2 col-lg-2 nopadding"  style="line-height: 35px;"><a ng-click="clearSelections()" id="clearLink">clear all selections</a></div>
+			<div id="actionButtonsSection" class="col-md-7 col-sm-7 col-lg-7 actioncontainer pull-right" style="margin-bottom:2px">
+			    <span class="col-md-3 col-sm-3 col-lg-3 nopadding">
+			    	<p style="margin-top:0px; margin-bottom:0px; line-height:10px;"><small><b>Actions on Selected:</b></small></p>
+			    	<small id="selectedRowNum">{{selected.length}} document(s) selected</small>
+			    </span>
+			    <div id="actionButtonsSection" class="col-md-7 col-sm-7 col-lg-7" style="margin-left:-20px;">
+			    <div id="MoreDropdownSection" class="btn-group" style="margin-left:-30px;padding-right:10px">
+					<button id="moreButton" type="button" class="btn btn-default btn-xs dropdown-toggle" 
+						data-toggle="dropdown" aria-expanded="false" ng-disabled="disableBtn" ng-click="clickMore()">More... <span class="caret"></span></button>
+					<ul class="dropdown-menu" role="menu">
+						<li class="disabled"><a href="" id="returnToVendorButton" ng-show="disableBtn||disableVendorBtn" 
+							ng-hide="hideVendorBtn">Return to Vendor</a></li>
+						<li><a href="" id="returnToVendorButton" data-toggle="modal" data-target="#RTVConfirmPopup" 
+							ng-hide="disableBtn||disableVendorBtn||hideVendorBtn">Return to Vendor</a></li>
+						<li><a id="resubmitRAWListItem" href ng-click="resubmitRAW('BESTRAW')" ng-disabled="disableBtn">Resubmit Raw</a></li>
+						<li><a id="resubmitOriginalListItem" href ng-click="confirmResubmitOriginalFile()" ng-disabled="disableBtn">Resubmit Original File</a></li>
+						<li><a id="rollbackINTListItem" href data-toggle="modal" data-target="#rollbackIntConfirmPopup" ng-disabled="disableBtn">Rollback Intermediate</a></li>
+						<li><a id="rollbackRAWListItem" href data-toggle="modal" data-target="#rollbackRawConfirmPopup" ng-disabled="disableBtn">Rollback Raw</a></li>
+					</ul>
+				</div>
+					<button id="replaceButton" type="button" class="btn btn-default btn-xs fixedButton"
+					        ng-click="searchAndReplace()" ng-disabled="disableBtn">Replace...</button>				
+				    <button id="unlockButton" type="button" class="btn btn-default btn-xs fixedButton"
+					        ng-click="unlockDocuments()" ng-disabled="disableBtn">Unlock</button>
+				    <button id="viewButton" type="button" class="btn btn-default btn-xs fixedButton"
+					        ng-click="viewDocument()" ng-disabled="disableBtn">View/Edit</button>
+				    <button id="resubmitButton" type="button" class="btn btn-default btn-xs fixedButton"
+					        ng-click="resubmit()" ng-disabled="disableBtn">Resubmit</button>
+			    </div>			    
+			    <div id="deleteButtonSection" class="col-md-2 col-sm-2 col-lg-2 pull-right">
+				    <button id="deleteButton" type="button" class="btn btn-default btn-xs  btn-danger fixedButton" ng-click="click()"
+					        data-toggle="modal" data-target="#deleteConfirmPopup" ng-disabled="disableBtn">Delete</button>
+			    </div>
+			</div>
+		</div>		
+		<div id="resubmitSuccess" class="alert alert-success"
+			data-ng-show="resubmitSuccess">
+			<strong>!! Your request to resubmit{{(hideNoDocs === true)? '' : (' ' + requestLength)}} document(s) was successfully submitted. !!</strong>
+		</div>
+		<div id="rollbackSuccess" class="alert alert-success"
+			data-ng-show="rollbackSuccess">
+			<strong>!! Your request to rollback{{(hideNoDocs === true)? '' : (' ' + requestLength)}} document(s) was successfully submitted. !!</strong>
+		</div>
+		<div id="deleteSuccess" class="alert alert-success"
+			data-ng-show="deleteSuccess">
+			<strong>!! Your request to delete{{(hideNoDocs === true)? '' : (' ' + requestLength) }} document(s) was successfully submitted. !!</strong>
+		</div>
+		<div id="returnToVendorSuccess" class="alert alert-success"
+			data-ng-show="returnToVendorSuccess">
+			<strong>!! Your request to return to vendor{{(hideNoDocs === true)? '' : (' ' + requestLength) }} document(s) was successfully submitted. !!</strong>
+		</div>
+		<div id="commitSuccess" class="alert alert-success"
+			data-ng-show="commitSuccess">
+			<strong>!! Your request to commit{{(hideNoDocs === true)? '' : (' ' + requestLength) }} document(s) was successfully submitted. !!</strong>
+		</div>
+		<div id="resubmitFailure" class="alert alert-danger"
+			data-ng-show="resubmitFailure">
+			<strong>!!! There was an error while attempting to resubmit
+				the document(s). !!! Please wait for a few minutes and then retry
+				resubmitting the document(s).</strong>
+		</div>
+		<div id="rollbackFailure" class="alert alert-danger"
+			data-ng-show="rollbackFailure">
+			<strong>!!! There was an error while attempting to rollback
+				the document(s). !!! Please wait for a few minutes and then retry
+				rolling back the document(s).</strong>
+		</div>
+		<div id="deleteFailure" class="alert alert-danger"
+			data-ng-show="deleteFailure">
+			<strong>!!! There was an error while attempting to delete
+				the document(s). !!! Please wait for a few minutes and then retry
+				deleting the document(s).</strong>
+		</div>
+		<div id="returnToVendorFailure" class="alert alert-danger"
+			data-ng-show="returnToVendorFailure">
+			<strong>!!! There was an error while attempting to return
+				the document(s) to the vendor. !!! Please wait for a few minutes and then retry
+				returning the document(s) to the vendor.</strong>
+		</div>		
+		<div id="errorTableRow" class="row">
+			<div id="errorTableSection" class="optidatatable">
+				<div id="errorTable" ui-grid="gridOptions" class="grid"
+					ui-grid-save-state ui-grid-pagination ui-grid-selection ui-grid-cellNav
+					ui-grid-move-columns ui-grid-resize-columns ui-grid-exporter></div>
+			</div>
+		</div>
+		<br>
+		<br>
+		<div class="modal fade" id="deleteConfirmPopup" tabindex="-1"
+			role="dialog" aria-labelledby="deleteConfirmPopup" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							data-ng-click="blurDeleteBtn()" aria-hidden="true">X</button>
+						<h4 class="modal-title" id="deleteConfirmPopupLabel">!
+							WARNING</h4>
+					</div>
+					<div class="modal-body">
+						<h3>Are you sure you want to delete {{selected.length}} document(s)?</h3>
+					</div>
+					<div class="modal-footer">
+						<button id="deleteButtonNo" type="button" class="btn btn-default" 
+							data-ng-click="blurDeleteBtn()" data-dismiss="modal">NO
+							- go back</button>
+						<button id="deleteButtonYes" type="button" class="btn btn-primary"
+							data-ng-click="deleteDocument()" data-dismiss="modal">YES
+							- continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="rollbackIntConfirmPopup" tabindex="-1"
+			role="dialog" aria-labelledby="rollbackIntConfirmPopup" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							data-ng-click="" aria-hidden="true">X</button>
+						<h4 class="modal-title" id="rollbackIntConfirmPopupLabel">!
+							WARNING</h4>
+					</div>
+					<div class="modal-body">
+						<h3>Are you sure you want to rollback {{selected.length}} document(s)?</h3>
+					</div>
+					<div class="modal-footer">
+						<button id="rollbackIntButtonNo" type="button" class="btn btn-default" 
+							data-ng-click="" data-dismiss="modal">NO
+							- go back</button>
+						<button id="rollbackIntButtonYes" type="button" class="btn btn-primary"
+							data-ng-click="bulkRollback('INT')" data-dismiss="modal">YES
+							- continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="rollbackRawConfirmPopup" tabindex="-1"
+			role="dialog" aria-labelledby="rollbackRawConfirmPopup" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							data-ng-click="" aria-hidden="true">X</button>
+						<h4 class="modal-title" id="rollbackRawConfirmPopupLabel">!
+							WARNING</h4>
+					</div>
+					<div class="modal-body">
+						<h3>Are you sure you want to rollback {{selected.length}} document(s)?</h3>
+					</div>
+					<div class="modal-footer">
+						<button id="rollbackRawButtonNo" type="button" class="btn btn-default" 
+							data-ng-click="" data-dismiss="modal">NO
+							- go back</button>
+						<button id="rollbackRawButtonYes" type="button" class="btn btn-primary"
+							data-ng-click="bulkRollback('RAW')" data-dismiss="modal">YES
+							- continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="RTVConfirmPopup" tabindex="-1"
+			role="dialog" aria-labelledby="RTVConfirmPopup" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							data-ng-click="blurReturnToVendorBtn()" aria-hidden="true">X</button>
+						<h4 class="modal-title" id="RTVConfirmPopupLabel">!
+							WARNING</h4>
+					</div>
+					<div class="modal-body">
+						<h3>Are you sure you want to return {{selected.length}} document(s) to the vendor?</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" 
+							data-ng-click="blurReturnToVendorBtn()" data-dismiss="modal">NO
+							- go back</button>
+						<button type="button" class="btn btn-primary"
+							data-ng-click="returnToVendorDocument()" data-dismiss="modal">YES
+							- continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br><br>
+		<br>
+	</div>
+</div>
+</div>

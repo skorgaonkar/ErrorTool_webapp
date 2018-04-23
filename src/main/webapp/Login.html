@@ -1,0 +1,31 @@
+  <div id="logIn" ng-style="{'background-image':'url(src/images/background.jpg)'}" ng-controller="UserCtrl">
+	<div class="signin-wrapper" id="logInModal" tabindex="-1" role="dialog" aria-labelledby="logInModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Please sign in</h3>
+				</div>
+				<div class="modal-body">
+						<div id="signInAlert" class="alert alert-danger" ng-show='errorLogin'>Incorrect login</div>
+						<div id="noPermissionAlert" class="alert alert-danger" ng-show='noPermission'>You do not have permissions to use this tool.<br> Please contact 
+						<a href="mailto:PQ-Optimus-Mortar-Support@proquest.com?Subject=Error%20Tool%20User%20Permission" target="_top">Mortar support team</a> for help.</div>
+						<form id="signInForm" class="form-vertical" role="form"	ng-submit=submit()>
+							<div id="userNameFormGroup" class="form-group">
+								<label id="userNameLabel" for="userName" class="sr-only">Username</label>
+									<input autofocus id="userNameValue" ng-model="userName" name="userName" type="text" class="form-control" placeholder="Use Your ProQuest ID" required autofocus>
+							</div>
+							<div id="passwordFormGroup" class="form-group">
+								<label id="passwordLabel" for="password"  class="sr-only">Password</label>
+									<input id="passwordValue" ng-model="password" name="password" type="password" class="form-control" placeholder="Use Your ProQuest Password"	required>
+							</div>
+						<div class="modal-footer">
+							<div id="userSubmitFormGroup" class="form-group">
+								<button id="userSubmitButton" class="btn btn-default" type="submit">Sign in</button>
+							</div>
+						</div>
+						</form>
+				</div>
+			</div>
+		</div>
+	 </div>
+</div>

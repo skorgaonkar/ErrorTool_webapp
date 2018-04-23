@@ -1,0 +1,17 @@
+<div data-backdrop="false" class="modal fade" id="docResubmitOriginalPopup" tabindex="-1" role="dialog" aria-labelledby="docResubmitOriginalPopupPopup" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h4 class="modal-title" id="docResubmitOriginalPopupLabel">! WARNING</h4>
+			</div>
+			<div class="modal-body">
+				<h3> {{noOfDocs > 1 ? 'Are you sure you want to resubmit '+ noOfDocs +' original files? Each file could contain thousands of documents.' : 'Are you sure you want to resubmit '+ noOfDocs +' original file? Each file could contain thousands of documents.'}} </h3>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-ng-click="close('No')" data-dismiss="modal">NO - go back</button>
+				<button type="button" class="btn btn-default" data-ng-click="resubmitOriginalFile('ORIGFILE')" data-dismiss="modal">YES - continue</button>
+			</div>
+		</div>
+	</div>
+</div>

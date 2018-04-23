@@ -1,0 +1,229 @@
+<div id="documentSection" class="container" ng-mousedown="clearMessages()">
+	<div id="deleteFailure" class="alert alert-danger" data-ng-show="deleteFailure">
+		<strong>!!! There was an error while attempting to delete
+			the document(s). !!! Please wait for a few minutes and then retry
+			deleting the document(s).</strong>
+	</div>
+	<div id="resubmitFailure" class="alert alert-danger" data-ng-show="resubmitFailure">
+		<strong>!!! There was an error while attempting to resubmit
+			the document(s). !!! Please wait for a few minutes and then retry
+			resubmitting the document(s).</strong>
+	</div>
+    <div id="saveFailure" class="alert alert-danger" data-ng-show="saveFailure">
+       <strong>Oops!! There was a problem with saving the file. Please wait a few minutes and try again. If you
+               are still having issues contact a system administrator.</strong>
+    </div>
+    <div id="rollbackFailure" class="alert alert-danger" data-ng-show="rollbackFailure">
+       <strong>There was a problem rolling back your document. Try again in a few minutes or contact PQ-Optimus-Mortar.</strong>
+    </div>
+    <div id="returnToVendorFailure" class="alert alert-danger" data-ng-show="returnToVendorFailure">
+       <strong>There was a problem returning your document to the vendor. Try again in a few minutes or contact PQ-Optimus-Mortar.</strong>
+    </div>
+    <div id="viewDocFailure" class="alert alert-danger" data-ng-show="showDocError">
+       <strong>This document is not available for viewing.</strong>
+    </div>    
+    <div id="documentHeaderSection" class="row">
+        <div id="documentHeader"  class="col-sm-10 col-md-11 col-lg-11">
+			<strong id="errorMessage">{{errorMessage}}</strong>
+		</div>
+		<div id="goBackLinkSection" class="col-sm-2 col-md-1 col-lg-1"><a ng-click="checkAndGoBack()" id="goBackLink">close X</a></div>
+	</div>
+	<div id="RawFileSection" class="row">
+	  <div id="RawFileSection"  class="col-md-12 col-sm-3"><small id="rawFileName">{{ docChoice == 'INT' ? intFile : rawFile}}</small></div>
+	</div>
+	<div id="documentViewSection" class="col-sm-12 col-md-12 col-lg-12 row top10">
+	    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 pull-right">
+	      <button id="deleteBtn" type="button" class="btn btn-default btn-xs btn-danger fixedButton" ng-disabled="disableBtn && !docDataError"  
+	      	data-toggle="modal" data-target="#deleteConfirmPopup" ng-hide="showDocError">Delete</button>
+	    </div>
+	    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 pull-right nopadding">
+	        <button id="saveBtn" type="button" class="btn btn-default btn-xs fixedButton" ng-disabled="disableBtn" ng-hide="showDocError" ng-click="saveDocument()">Save</button>
+	        <button id="resubmitBtn" type="button" class="btn btn-default btn-xs fixedButton" ng-disabled="disableBtn" ng-hide="showDocError" ng-click="resubmit()">Resubmit</button>
+	        <button id="rollbackBtn" type="button" class="btn btn-default btn-xs fixedButton" ng-disabled="disableBtn" ng-hide="showDocError" ng-click="rollbackToOriginal()">Rollback</button>
+	        <div id="ReplaceDropdownSection" class="btn-group">
+	           <button id="replaceButton" type="button" class="btn btn-default btn-xs dropdown-toggle fixedButton" data-toggle="dropdown" 
+	                   aria-expanded="false" ng-disabled="disableBtn" ng-hide="showDocError" style="width: 75px;">Replace... <span class="caret"></span></button>
+			   <ul class="dropdown-menu" role="menu">
+			      <li><a id="replaceCurDocListItem" href ng-click="replaceDocument()" ng-disabled="disableBtn">Current Document</a></li>
+				  <li><a id="replaceDocSetListItem" href ng-click="replaceDocumentSet()" ng-disabled="disableBtn">Document Set</a></li>
+			   </ul>
+			</div>
+			<div id="EncodingDropdownSection" class="btn-group">
+	           <button id="encodingButton" type="button" class="btn btn-default btn-xs dropdown-toggle fixedButton" data-toggle="dropdown" 
+	                   aria-expanded="false" ng-disabled="disableBtn" ng-hide="showDocError" style="width: 75px;">{{charSet}} <span class="caret"></span></button>
+			   <ul class="dropdown-menu" role="menu">
+			      <li><a id="encodingansiItem" href ng-click="loadANSIDoc()" ng-disabled="disableBtn">Windows-1252</a></li>
+				  <li><a id="encodingutf8Item" href ng-click="loadUTF8Doc()" ng-disabled="disableBtn">UTF-8</a></li>
+			   </ul>
+			</div>
+		    <button id="returnToVendorBtn" type="button" class="btn btn-default btn-xs" ng-disabled="disableBtn"  
+	      	data-toggle="modal" data-target="#RTVConfirmPopup" ng-show="displayReturnToVendor && !showDocError">Return to Vendor</button>
+	    </div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 pull-right fixedheight">
+           <div ng-show="curSelectedDoc>=2" style="margin-left:-10px;"><a class="framework-icons myopenicon col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="cursor: pointer;" ng-click="goPrev()" id="preDocLink"><span class="uxf-icon uxf-icon uxf-left-open" style="margin-top: 1px;"></span></a></div>
+           <div ng-show="curSelectedDoc<2" style="margin-left:-10px;"><a class="framework-icons myopenicon col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" id="preDocLink"><span class="uxf-icon uxf-icon uxf-left-open" style="color:grey;margin-top: 1px;""></span></a></div>
+	       <div class="col-xs-6 col-sm-6 col-md-8 col-lg-9 nopadding" style="line-height:25px; text-align: center;"><span id="docCount">{{curSelectedDoc}} of {{totalSelectedDoc}} docs</span></div>
+	       <div ng-show="curSelectedDoc<totalSelectedDoc" style="margin-right:-20px;"><a class="framework-icons myopenicon col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" style="cursor: pointer;" ng-click="goNext()" id="nextDocLink"><span class="uxf-icon uxf-icon uxf-right-open" style="margin-top: 1px;"></span></a></div>
+	       <div ng-show="curSelectedDoc===totalSelectedDoc" style="margin-right:-20px;"><a class="framework-icons myopenicon col-xs-1 col-sm-1 col-md-1 col-lg-1 nopadding" id="nextDocLink"><span class="uxf-icon uxf-icon uxf-right-open" style="color:grey;margin-top: 1px;"></span></a></div>
+       </div>
+       
+       <div class="docview-nav"> 
+			<ul id="documentViewTabs" class="nav nav-tabs">
+			   <li id="currentIntTab" ng-class="{'active' : docChoice == 'INT'}" ng-show="intFile != '' && docChoice == 'INT'"><a href="" style="line-height:2px;" ><strong>Intermediate Format </strong><span class="uxf-icon uxf-pencil" ng-show="intSaved" style="line-height:2px"></span></a></li>	   
+			   <li id="intTab" ng-class="{'active' : docChoice == 'INT'}" ng-show="intFile != '' && docChoice == 'RAW'" ng-click="switchDocTab()" data-toggle="{{docChanged? 'modal' : ''}}" data-target="#notSavedPopup"><a href="" style="line-height:2px;" ><strong>Intermediate Format </strong><span class="uxf-icon uxf-pencil" ng-show="intSaved" style="line-height:2px"></span></a></li>
+			   <li id="currentRawTab" ng-class="{'active' : docChoice == 'RAW'}" ng-show="intFile != '' && docChoice == 'RAW'"><a href="" style="line-height:2px;" ><strong>Raw Format </strong><span class="uxf-icon uxf-pencil" ng-show="rawSaved" style="line-height:2px"></span></a></li>
+			   <li id="rawTabWithInt" ng-class="{'active': docChoice == 'RAW'}" ng-show="intFile != '' && docChoice == 'INT'" ng-click="switchDocTab()" data-toggle="{{docChanged? 'modal' : ''}}" data-target="#notSavedPopup"><a href="" style="line-height:2px;" ><strong>Raw Format </strong><span class="uxf-icon uxf-pencil" ng-show="rawSaved" style="line-height:2px"></span></a></li>
+			   <li id="rawTab" ng-class="{'active': docChoice == 'RAW'}" ng-show="intFile == ''"><a href="" style="line-height:2px;" ><strong>Raw Format </strong><span class="uxf-icon uxf-pencil" ng-show="rawSaved" style="line-height:2px"></span></a></li>
+			</ul>
+		</div>
+		 <div id="documentViewTabContent" class="tab-content">
+		    <div id="rawFormatSection">
+		      <form name="TextForm">
+              	<textarea  ng-if="xmlFormat == true" ng-model="document.data" name="document" ng-disabled="disableBtn" ui-codemirror="{lineNumbers: true, readOnly: false, lineWrapping: true, autofocus: true, mode: 'xml'}"></textarea>
+              	<textarea  ng-if="xmlFormat == false" ng-model="document.data" name="document" ng-disabled="disableBtn" style="height: 700px;"></textarea>
+              </form>
+            </div>
+         </div>
+    </div>
+    
+    <div id="activityLogSection" class="col-sm-12 col-md-12 col-lg-12 row top10">
+    	<div id="activityLogFailure" class="alert alert-danger" data-ng-show="activityLogFailure">
+	       <strong>Oops!! There was a problem retrieving activity log data. Please wait a few minutes and try again. </strong>
+	    </div>
+    	<div id="activityLogRow" ng-if="activityLogData != undefined">
+    		<div id="activityLogTableSection">
+				<div id="activityLogTable" ui-grid="activityLogGridOpts" class="activityLogGrid" ui-grid-move-columns ui-grid-resize-columns></div>
+			</div>
+		</div>
+    </div>
+    
+    <div id="attachmentLogSection" class="col-sm-12 col-md-12 col-lg-12 row top10">
+    	<div id="attachmentLogFailure" class="alert alert-danger" data-ng-show="attachmentsFailure">
+    		<strong>Error! There is a problem retrieving attachments data from companion.xml.</strong>
+    	</div>
+    	<div id="attachmentUploadFailure" class="alert alert-danger" data-ng-show="uploadFailure">
+    		<strong>Error! There has been an error uploading the file {{uploadFileName}}. Please check the file and try again.</strong>
+    	</div>
+    	<div id="attachmentUploadSuccess" class="alert alert-success" data-ng-show="uploadSuccess">
+    		<strong>SUCCESS!! Your document was successfully uploaded.</strong>
+    	</div>
+    	<div id="attachmentLogRow" class="table-responsive">
+    		<table class="table table-striped table-hover table-bordered"  style="table-layout:fixed; word-wrap:break-word" "id="attachmentsTable">
+        		<thead>
+        			<tr>
+               			<th style="width:5%">#</th>
+               			<th style="width:40%">Attachment Filename</th>
+               			<th style="width:5%">Type</th>
+               			<th style="width:20%">Date/Time Last Updated</th>
+               			<th style="width:10%">Size</th>
+               			<th style="width:20%">Upload File</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+        		    <tr ng-repeat="attachment in attachments">
+        		        <td>{{$index + 1}}</td>
+				        <td ng-show="attachLinkEnable[{{$index}}]" ><a ng-click="download(originalEventId,attachment.attachmentLocation,attachment.fileName)">{{attachment.attachmentLocation}}{{attachment.fileName}}</a></td>
+				        <td ng-hide="attachLinkEnable[{{$index}}]">{{attachment.attachmentLocation}}{{attachment.fileName}}</td>
+				        <td>{{attachment.fileType}}</td>
+				        <td>{{attachment.lastModifiedTime}}</td>
+				        <td>{{attachment.fileSize}}</td>
+				        <td><input type="file" name="file" ng-disabled="attachment.fileName===''" id ="{{attachment.fileName}}" onchange="angular.element(this).scope().uploadFile(this.files, this.id)"/></td>
+				    </tr>
+        		</tbody>
+			</table>    	
+    	</div>
+    </div>
+    
+    <div class="row">
+	    <div id="origEventIdGroupSection" class="col-sm-6 col-md-8 col-lg-8 top10">
+			<div id="originalEventIdLabel" class="optilabel"><span><strong>Original Event ID</strong></span></div>	   	
+			<div id="originalEventId" class="optilabelvalue small">{{originalEventId}}</div>	
+		</div>
+	    <div id="receivedDateGroupSection" class="col-sm-3 col-md-3 col-lg-3 top10">
+			<div id="receivedDateLabel" class="optilabel"><span><strong>Orig Rcv Date</strong></span></div>	   	
+			<div id="receivedDate" class="optilabelvalue small">{{receivedDate}}</div>
+		</div>
+	</div>
+	<div class="row">   	   
+	   <div id="origFileNameGroupSection" class="col-sm-6 col-md-8 col-lg-8 top10">
+	   	<div id="origFileNameLabel" class="optilabel"><span><strong>Original Filename</strong></span></div>	   	
+		<div id="origFileName" class="optilabelvalue small">{{originalFileName}}</div>	
+	   </div>	   
+	</div>
+	<div class="row">   	   
+	   <div id="intFileNameGroupSection" class="col-sm-6 col-md-8 col-lg-8 top10">
+	   	<div id="intFileNameLabel" class="optilabel"><span><strong>Intermediate Filename</strong></span></div>	   	
+		<div id="intFileName" class="optilabelvalue small">{{intFile}}</div>	
+	   </div>	   
+	</div>
+	<br>
+	<div class="modal fade" id="notSavedPopup" tabindex="-1" 
+		role="dialog" aria-labelledby="notSavedPopup" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" 
+						aria-hidden="true">X</button>
+					<h4 class="modal-title" id="notSavedPopupLabel">! WARNING</h4>
+				</div>
+				<div class="modal-body">
+					<h3>You are about to lose your changes. Do you want to continue?</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" 
+						data-dismiss="modal">NO - go back</button>
+					<button type="button" class="btn btn-primary" 
+						data-ng-click="getDocument()" data-dismiss="modal">YES - continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-backdrop="false" class="modal fade" id="deleteConfirmPopup" tabindex="-1"
+		role="dialog" aria-labelledby="deleteConfirmPopup" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" 
+						data-ng-click="blurDeleteBtn()" aria-hidden="true">X</button>
+					<h4 class="modal-title" id="deleteConfirmPopupLabel">!
+							WARNING</h4>
+				</div>
+				<div class="modal-body">
+					<h3>Are you sure you want to delete this?</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-ng-click="blurDeleteBtn()" 
+						data-dismiss="modal">NO - go back</button>
+					<button type="button" class="btn btn-primary"
+						data-ng-click="deleteDocument()" data-dismiss="modal">YES
+						- continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-backdrop="false" class="modal fade" id="RTVConfirmPopup" tabindex="-1"
+		role="dialog" aria-labelledby="RTVConfirmPopup" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" 
+						data-ng-click="blurReturnToVendorBtn()" aria-hidden="true">X</button>
+					<h4 class="modal-title" id="RTVConfirmPopupLabel">!
+							WARNING</h4>
+				</div>
+				<div class="modal-body">
+					<h3>Are you sure you want to return this document to the vendor?</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-ng-click="blurReturnToVendorBtn()" 
+						data-dismiss="modal">NO - go back</button>
+					<button type="button" class="btn btn-primary"
+						data-ng-click="returnToVendorDocument()" data-dismiss="modal">YES
+						- continue</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+</div>
+ 

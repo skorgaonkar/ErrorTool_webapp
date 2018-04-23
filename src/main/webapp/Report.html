@@ -1,0 +1,59 @@
+<div id="reportSection" ng-controller="ReportQueryCtrl">
+	<div id="reportQuerySection" class="container"
+		style="background-color: #f8f8f8; margin-left: 15px; padding-left: 0px; padding-top: 10px; padding-bottom: 10px; width: 98%; margin-top: -18px;">
+
+		<div id="invalidFormAlert" class="alert alert-danger"
+			ng-show="invalidForm">Please check your time range input, using
+			format yyyyMMdd.</div>
+
+		<form id="searchForm" name="searchForm" role="form">
+			<div id="IPCodeGroupSection"
+				class="form-group col-sm-2 col-md-2 col-lg-2">
+				<label id="IPCodeLabel" class="control-label" for="IPCode"><strong>Provider</strong></label>
+				<div id="IPCodeSection" class="select-wrapper form-control input-sm">
+					<select id="IPCode" ng-model="IPCode">
+						<option value="">All providers</option>
+						<option ng-repeat="item in partners" value ="{{item.partner}}">{{item.partner}}</option>
+					</select>
+				</div>
+			</div>
+			
+			<div id="dateRangeSection" ng-include="'templates/DateRange.html'"></div>
+						
+			<div id="querySubmitSection"
+				class="row col-sm-12 col-md-12 col-lg-12">
+				<div class="mysearchbutton">
+					<button id="runButton" type="submit" class="btn btn-default btn-xs"
+						ng-click="runReport()">Run Report</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="top10" id="reportResultSection"
+	ng-controller="ReportResultCtrl">
+
+	<div class="container">
+		<div id="reportServiceFailureAlert" class="alert alert-danger"
+			ng-show="reportServiceFailure">
+			<strong>Oops!</strong>Your search string cannot be parsed. Adjust
+			your query and try again.
+		</div>
+	</div>
+	
+	<div>
+		<div id="tableHeadingSection" class="optitableheading">
+			<div id="reportTableHeading" style="line-height: 35px;">
+				<strong>{{IPDisplay + dateDisplay}}</strong>
+			</div>
+		</div>
+					
+		<div id="reportTableSection" class="optireporttable">
+			<div id="reportTable" ui-grid="gridOptions" class="grid" ui-grid-exporter></div>
+		</div>
+				
+		<br>
+	</div>
+	<br><br><br><br><br><br>
+</div>
