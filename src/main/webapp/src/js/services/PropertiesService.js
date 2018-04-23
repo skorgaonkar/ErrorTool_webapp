@@ -16,7 +16,7 @@ errorToolApp.service('propertiesService', function ($http, $location ) {
 		if(pipeLine == "Bumblebee"){
 			this.urlBase = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/errortool/";
 		}
-		else if(pipeLine == "Optimus")
+		else 
 		{
 			this.urlBase = $location.protocol() + "://" + $location.host() + ":" + $location.port() + "/OptiServices/rest/";	
 		}

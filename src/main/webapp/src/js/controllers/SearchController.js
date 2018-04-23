@@ -29,16 +29,17 @@ errorToolApp.controller("SearchCtrl", ['$scope', '$rootScope','$location', '$coo
 	   $scope.noIDType = false;
 	   $scope.searchButtonText = 'Search';
 	   $scope.isSearching = false;
-	  // $scope.myVar = 'Bumblebee';
+	// $scope.myVar = 'Bumblebee';
 	  
-	   /*
-	   propertiesService.setServiceUrlBase($scope.myVar);
+	  
+	  // propertiesService.setServiceUrlBase($scope.myVar);
 	   
+	   /*
 	    searchResultService.getProviderList().then(function(data){
 		   $scope.partners = data;
 		   });
+		   */
 	  
-	   */
 	   
 	   if ($rootScope.refreshResultTable == null){
 	       $rootScope.refreshResultTable = 1;
@@ -388,16 +389,16 @@ errorToolApp.controller("SearchCtrl", ['$scope', '$rootScope','$location', '$coo
 	   $scope.IDType="";
 	   $scope.searchID="";
 	   
-	   
+
 	   propertiesService.setServiceUrlBase($scope.myVar);
-		  // alert(propertiesService.getServiceUrlBase());
-		  	   searchResultService.getProviderList().then(function(data){
+		     // alert(propertiesService.getServiceUrlBase());
+	         
+	   
+		  	 searchResultService.getProviderList().then(function(data){
 			   $scope.partners = data;
 		  	   });
-		  	 
-	  
+	   
 	};
-	
 	
 	
 	$scope.syntaxSubmit = function() {
